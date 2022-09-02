@@ -1,0 +1,45 @@
+
+
+POST http://localhost:8081/produtos
+Content-Type: application/json
+
+{
+    "nome":"sapato", 
+    "marca":"nike",
+    "preco":99.99
+}
+
+###
+
+PUT http://localhost:8081/produtos/1
+Content-Type: application/json
+
+{
+    "nome":"casa",
+    "marca":"brastel",
+    "preco":280000
+}
+
+###
+DELETE http://localhost:8081/produtos/1
+
+###
+
+PATCH http://localhost:8081/produtos/1
+Content-Type: application/json
+
+{
+    "nome":"lapis", 
+    "marca":"fabercastel",
+    "preco":5.99
+}
+
+###
+
+GET http://localhost:8081/produtos/1
+
+###
+
+GET http://localhost:8081/produtos
+
+

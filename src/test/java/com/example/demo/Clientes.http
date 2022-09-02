@@ -1,0 +1,47 @@
+
+
+POST http://localhost:8081/clientes
+Content-Type: application/json
+
+{
+
+    "nome":"tiago", 
+    "Email":"tiago@gmail.com",
+    "idade": 27
+}
+
+###
+
+PUT http://localhost:8081/clientes/2
+Content-Type: application/json
+
+{
+    "nome":"tiago", 
+    "Email":"tiago@gmail.com",
+    "idade":27
+}
+
+###
+DELETE http://localhost:8081/clientes/3
+
+###
+
+PATCH http://localhost:8081/clientes/1
+Content-Type: application/json
+
+{
+
+    "nome":"antonio", 
+    "Email":"antonio@gmail.com",
+    "idade":32
+}
+
+###
+
+GET http://localhost:8081/clientes/3
+
+###
+
+GET http://localhost:8081/clientes
+
+
