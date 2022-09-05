@@ -20,89 +20,73 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProdutosController {
 
-    List<Produto> ps = new ArrayList<Produto>();
+    @Autowired
+    ProdutoService produtoService;
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> Remover(@PathVariable Long id) {
-        List<Produto> filtro = ps.stream().filter(prod -> prod.getId() == id).toList();
-        if (ps.remove(filtro.get(0))) {
-            return ResponseEntity.status(200).body(filtro.get(0));
-        } else {
-            return ResponseEntity.status(500).body("Produto não foi removido");
-        }
-
+    @GetMapping
+    public ResponseEntity listar() {
+        var produtos = produtoService.listar();
+        if (produtos.isEmpty())
+            return ResponseEntity.ok().body("Lista vazia.");
+        return ResponseEntity.ok().body(produtos);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> Substituir(@PathVariable Long id, @RequestBody Produto p) {
-        List<Produto> filtro = ps.stream().filter(prod -> prod.getId() == id).toList();
-        Produto p1 = new Produto(p.getNome(), p.getMarca(), p.getPreco(), filtro.get(0).getId());
-        int idp = Math.toIntExact(filtro.get(0).getId());
-        try  {
-            ps.add(idp-1,p1);
-            ps.remove(filtro.get(0));
-            return ResponseEntity.status(200).body(p1);
-        } catch(Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(500).body("Produto não foi atualizado");
+    @GetMapping("/{id}")
+    public ResponseEntity exibir(@PathVariable long id) {
+        try {
+            var produto = produtoService.exibir(id);
+            return ResponseEntity.ok().body(produto);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(404)
+                    .body("Nenhum produto encontrado.");
         }
 
     }
 
     @PostMapping
-    public ResponseEntity<Object> inserir(@RequestBody Produto p){
-        Long LastProduct = 0L;
-        if(ps != null && !ps.isEmpty()){
-            LastProduct = ps.get(ps.size() - 1).getId();
-            p.setId(++LastProduct);
-        }
-        
-        if(ps.add(p)){
-            return ResponseEntity.status(201).body(p);
-        }else{
-            return ResponseEntity.status(500).body("Produto não foi Inserido");
-        }
+    public ResponseEntity inserir(@RequestBody Produto produto) {
+        if (produto.getNome() == null || 
+                produto.getMarca() == null)
+            return ResponseEntity.status(400)
+            .body("Dados incorretos.");
 
+        produto = produtoService.salvar(produto);
+        if (produto.getId() != 0)
+            return ResponseEntity.status(201).body(produto);
+
+        return ResponseEntity.status(500).body("Erro interno.");
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Object> Atualizar(@PathVariable long id, @RequestBody Produto p) {
-        List<Produto> filtro = ps.stream().filter(prod -> prod.getId() == id).toList();
-        Produto p1 = new Produto(p.getNome(), p.getMarca(), p.getPreco(),filtro.get(0).getId());
-        int idp = Math.toIntExact(filtro.get(0).getId());
-        try {
-            ps.add(idp-1,p1);
-            ps.remove(filtro.get(0));
-            return ResponseEntity.status(205).body(p1);
-        } catch(Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(500).body("Produto não foi substituido");
-        }
-
+    @PutMapping("/{id}")
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Produto produto) {
+        if (produto.getNome() == null || 
+                produto.getMarca() == null)
+                    return ResponseEntity.status(400)
+                        .body("Dados incorretos.");
+        produto.setId(id);
+        produto = produtoService.salvar(produto);
+        return ResponseEntity.status(201).body(produto);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> Obter(@PathVariable long id) {
-        List<Produto> filtro = ps.stream().filter(prod -> prod.getId() == id).toList();
-        if (!filtro.isEmpty()) {
-            return ResponseEntity.status(200).body(filtro.get(0));
-        } else {
-            return ResponseEntity.status(404).body("Produto não Encontrado");
+    /* @PatchMapping("/{id}")
+    public ResponseEntity alterar(@PathVariable Long id, @RequestBody Produto produto) {
+        for (Produto p : produtos) {
+            if (p.getId() == id) {
+                var nome = produto.getNome();
+                p.setNome(nome);
+                var marca = produto.getMarca();
+                p.setMarca(marca);
+                return ResponseEntity.ok().body(p);
+            }
         }
-
+        return ResponseEntity.status(500).body("Erro interno.");
     }
-
-    @GetMapping
-    public ResponseEntity<Object> Listar() {
-        List<Produto> spr = new ArrayList<Produto>();
-        for (Produto p : ps) {
-            spr.add(p);
-        }
-        if (!spr.isEmpty()) {
-            return ResponseEntity.status(200).body(spr);
-        } else {
-            return ResponseEntity.status(404).body("Lista Vazia");
-        }
-
+ */
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity remover(@PathVariable Long id) {
+        produtoService.excluir(id);
+        return ResponseEntity.ok().body("Produto excluido.");
     }
 }
