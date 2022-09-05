@@ -1,6 +1,6 @@
 
 
-POST http://localhost:8081/produtos
+POST http://localhost:8082/produtos
 Content-Type: application/json
 
 {

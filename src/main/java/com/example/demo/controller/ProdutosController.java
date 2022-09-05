@@ -1,14 +1,12 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.demo.model.Produto;
-
+import com.example.demo.service.ProdutoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+// import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,20 +67,20 @@ public class ProdutosController {
         return ResponseEntity.status(201).body(produto);
     }
 
-    /* @PatchMapping("/{id}")
-    public ResponseEntity alterar(@PathVariable Long id, @RequestBody Produto produto) {
-        for (Produto p : produtos) {
-            if (p.getId() == id) {
-                var nome = produto.getNome();
-                p.setNome(nome);
-                var marca = produto.getMarca();
-                p.setMarca(marca);
-                return ResponseEntity.ok().body(p);
-            }
-        }
-        return ResponseEntity.status(500).body("Erro interno.");
-    }
- */
+    // @PatchMapping("/{id}")
+    // public ResponseEntity alterar(@PathVariable Long id, @RequestBody Produto produto) {
+    //     for (Produto p : produtos) {
+    //         if (p.getId() == id) {
+    //             var nome = produto.getNome();
+    //             p.setNome(nome);
+    //             var marca = produto.getMarca();
+    //             p.setMarca(marca);
+    //             return ResponseEntity.ok().body(p);
+    //         }
+    //     }
+    //     return ResponseEntity.status(500).body("Erro interno.");
+    // }
+ 
     
     @DeleteMapping("/{id}")
     public ResponseEntity remover(@PathVariable Long id) {
