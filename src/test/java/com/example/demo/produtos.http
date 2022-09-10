@@ -40,6 +40,6 @@ GET http://localhost:8081/produtos/1
 
 ###
 
-GET http://localhost:8081/produtos
+GET http://localhost:8082/produtos
 
 

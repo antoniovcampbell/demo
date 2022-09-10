@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/clientes")
+@RequestMapping("/usuarios")
 @RestController
-public class ClienteController {
+public class UsuarioController {
     List<Cliente> clis = new ArrayList<Cliente>();
 
     @DeleteMapping("/{id}")
@@ -58,7 +58,7 @@ public class ClienteController {
         if(clis.add(c)){
             return ResponseEntity.status(201).body(c);
         }else{
-            return ResponseEntity.status(500).body("Cliente não foi inserido");
+            return ResponseEntity.status(500).body("Usuario não foi inserido");
         }
 
     }
@@ -75,7 +75,7 @@ public class ClienteController {
             return ResponseEntity.status(205).body(c1);
         }catch(Exception e){
             System.out.println(e);
-            return ResponseEntity.status(500).body("Cliente não foi substituido");
+            return ResponseEntity.status(500).body("Usuario não foi substituido");
         }
     
         

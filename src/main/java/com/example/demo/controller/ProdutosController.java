@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import net.bytebuddy.description.type.TypeDescription.Generic;
 
 @RequestMapping("/produtos")
 @RestController
@@ -21,6 +24,7 @@ public class ProdutosController {
     @Autowired
     ProdutoService produtoService;
 
+    // @RequestMapping(value = "/produtos" , method=RequestMethod.GET)
     @GetMapping
     public ResponseEntity listar() {
         var produtos = produtoService.listar();
