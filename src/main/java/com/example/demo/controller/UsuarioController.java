@@ -1,14 +1,12 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.demo.model.Usuario;
+import com.example.demo.service.UsuarioService;
 
-import com.example.demo.model.Cliente;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,87 +17,72 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/usuarios")
 @RestController
 public class UsuarioController {
-    List<Cliente> clis = new ArrayList<Cliente>();
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> Remover(@PathVariable Long id){
-        List<Cliente> filtro = clis.stream().filter(cli -> cli.getId() == id).toList();
-        if(clis.remove(filtro.get(0))){
-            return ResponseEntity.status(200).body(filtro.get(0));
-        }else{
-            return ResponseEntity.status(500).body("Cliente não doi removido");
-        }
-        
+    @Autowired
+    UsuarioService usuarioService;
+
+    @GetMapping
+    public ResponseEntity listar() {
+        var usuarios = usuarioService.listar();
+        if (usuarios.isEmpty())
+            return ResponseEntity.ok().body("Lista vazia.");
+        return ResponseEntity.ok().body(usuarios);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> Substituir(@PathVariable Long id, @RequestBody Cliente c){
-        List<Cliente> filtro = clis.stream().filter(cli -> cli.getId() == id).toList();
-        Cliente c1 = new Cliente(c.getNome(),c.getIdade(),filtro.get(0).getId(),c.getEmail());
-        int idc = Math.toIntExact(filtro.get(0).getId());
-        try{
-            clis.add(idc-1,c1);
-            clis.remove(filtro.get(0));
-            return ResponseEntity.status(201).body(c1);
-        }catch(Exception e){
-            System.out.println(e);
-            return ResponseEntity.status(500).body("Cliente não foi atualizado");
+    @GetMapping("/{id}")
+    public ResponseEntity exibir(@PathVariable long id) {
+        try {
+            var produto = usuarioService.exibir(id);
+            return ResponseEntity.ok().body(produto);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(404)
+                    .body("Nenhum Usuario encontrado.");
         }
-        
-       
+
     }
 
     @PostMapping
-    public ResponseEntity<Object> inserir(@RequestBody Cliente c){
-        Long LastClient = 0L;
-        if(clis != null && !clis.isEmpty())
-        LastClient = clis.get(clis.size() - 1).getId();
-        c.setId(++LastClient);
-        if(clis.add(c)){
-            return ResponseEntity.status(201).body(c);
-        }else{
-            return ResponseEntity.status(500).body("Usuario não foi inserido");
-        }
+    public ResponseEntity inserir(@RequestBody Usuario usuario) {
+        if (usuario.getNome() == null || usuario.getEmail() == null || usuario.getTelefone() == null)
+            return ResponseEntity.status(400)
+                    .body("Dados incorretos.");
 
+        usuario = usuarioService.salvar(usuario);
+        if (usuario.getId() != 0)
+            return ResponseEntity.status(201).body(usuario);
+
+        return ResponseEntity.status(500).body("Erro interno.");
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Object> Atualizar(@PathVariable long id, @RequestBody Cliente c){
-        List<Cliente> filtro = clis.stream().filter(cli -> cli.getId() == id).toList();
-        Cliente c1 = new Cliente(c.getNome(),c.getIdade(),filtro.get(0).getId(),c.getEmail());
-        int idc = Math.toIntExact(filtro.get(0).getId());
-        
-        try{
-            clis.add(idc-1,c1);
-            clis.remove(filtro.get(0));
-            return ResponseEntity.status(205).body(c1);
-        }catch(Exception e){
-            System.out.println(e);
-            return ResponseEntity.status(500).body("Usuario não foi substituido");
-        }
-    
-        
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> Obter(@PathVariable long id){
-        List<Cliente> filtro = clis.stream().filter(cli -> cli.getId() == id).toList();
-        if(!filtro.isEmpty()){
-           return ResponseEntity.status(200).body(filtro.get(0));
-        }else{
-           return ResponseEntity.status(404).body("Nao Encontrado");
-        }
-        
-    }
-    @GetMapping
-    public ResponseEntity<Object> Listar(){
-        
-        if(!clis.isEmpty()){
-            return ResponseEntity.status(200).body(clis);
-        }else{
-            return ResponseEntity.status(404).body("Lista Vazia");
-        }
-
+    @PutMapping("/{id}")
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+        if (usuario.getNome() == null || usuario.getEmail() == null || usuario.getTelefone() == null)
+            return ResponseEntity.status(400).body("Dados incorretos.");
+        usuario.setId(id);
+        usuario = usuarioService.salvar(usuario);
+        return ResponseEntity.status(201).body(usuario);
     }
 
+    // @PatchMapping("/{id}")
+    // public ResponseEntity alterar(@PathVariable Long id, @RequestBody Produto
+    // produto) {
+    // for (Produto p : produtos) {
+    // if (p.getId() == id) {
+    // var nome = produto.getNome();
+    // p.setNome(nome);
+    // var marca = produto.getMarca();
+    // p.setMarca(marca);
+    // return ResponseEntity.ok().body(p);
+    // }
+    // }
+    // return ResponseEntity.status(500).body("Erro interno.");
+    // }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity remover(@PathVariable Long id) {
+        usuarioService.excluir(id);
+        return ResponseEntity.ok().body("Usuario excluido.");
+    }
 
 }
