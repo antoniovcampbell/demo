@@ -33,8 +33,4 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 24d517c8dcb94d5f2667ab1367dd27ed9f416b25
