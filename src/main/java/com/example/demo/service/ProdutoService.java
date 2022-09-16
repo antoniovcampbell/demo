@@ -11,12 +11,14 @@ import com.example.demo.repository.ProdutoRepository;
 @Service
 public class ProdutoService {
 
+    
     @Autowired
     ProdutoRepository produtoRepository;
+   
 
     // Listar
     public List<Produto> listar(){
-        return produtoRepository.findAll();
+        return (List<Produto>) produtoRepository.findAll();
     }
     // criar
     public Produto salvar(Produto produto) {
