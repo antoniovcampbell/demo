@@ -11,8 +11,5 @@ public class IndexController {
     public ResponseEntity index(){
         return ResponseEntity.ok().body("Api Online");
     }
-    @GetMapping("/index")
-    public ResponseEntity index1(){
-        return ResponseEntity.ok().body("Api Online");
-    }
+    
 }
