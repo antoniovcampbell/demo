@@ -11,7 +11,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity(name = "usuarios")
+<<<<<<< HEAD
 public class Usuario implements UserDetails{
+=======
+public class Usuario implements UserDetails {
+>>>>>>> 24d517c8dcb94d5f2667ab1367dd27ed9f416b25
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -19,17 +23,28 @@ public class Usuario implements UserDetails{
     private String email;
     private String telefone;
     private String cep;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 24d517c8dcb94d5f2667ab1367dd27ed9f416b25
     private String password;
     private String username;
     private Boolean enabled = true;
     private Boolean credentialsNonExpired = true;
     private Boolean accountNonExpired = true;
+<<<<<<< HEAD
     private Boolean accountNonLocked= true;
     private String authorities = "USER";
 
 
 
+=======
+    private Boolean accountNonLocked = true;
+    private String authorities = "USER";
+    
+    
+>>>>>>> 24d517c8dcb94d5f2667ab1367dd27ed9f416b25
     public Usuario(){
 
     }
@@ -86,6 +101,35 @@ public class Usuario implements UserDetails{
     public void setCep(String cep) {
         this.cep = cep;
     }
+<<<<<<< HEAD
+=======
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+    public Boolean getCredentialsNonExpired() {
+        return credentialsNonExpired;
+    }
+    public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
+    public Boolean getAccountNonExpired() {
+        return accountNonExpired;
+    }
+    public void setAccountNonExpired(Boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
+    public Boolean getAccountNonLocked() {
+        return accountNonLocked;
+    }
+    public void setAccountNonLocked(Boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+    
+>>>>>>> 24d517c8dcb94d5f2667ab1367dd27ed9f416b25
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // TODO Auto-generated method stub
@@ -122,6 +166,7 @@ public class Usuario implements UserDetails{
         return false;
     }
 
+<<<<<<< HEAD
     public Boolean getEnabled() {
         return enabled;
     }
@@ -147,5 +192,7 @@ public class Usuario implements UserDetails{
         this.accountNonLocked = accountNonLocked;
     }
 
+=======
+>>>>>>> 24d517c8dcb94d5f2667ab1367dd27ed9f416b25
     
 }
