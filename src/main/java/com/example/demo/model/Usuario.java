@@ -91,64 +91,72 @@ public class Usuario implements UserDetails{
     public void setCep(String cep) {
         this.cep = cep;
     }
+
     public Boolean getEnabled() {
         return enabled;
     }
+
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
+
     public Boolean getCredentialsNonExpired() {
         return credentialsNonExpired;
     }
+
     public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
     }
+
     public Boolean getAccountNonExpired() {
         return accountNonExpired;
     }
+
     public void setAccountNonExpired(Boolean accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
     }
+
     public Boolean getAccountNonLocked() {
         return accountNonLocked;
     }
+
     public void setAccountNonLocked(Boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.authorities;
     }
+
     @Override
     public String getPassword() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.password;
     }
+
     @Override
     public String getUsername() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.username;
     }
+
     @Override
     public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.accountNonExpired;
     }
+
     @Override
     public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.accountNonLocked;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.credentialsNonExpired;
     }
+
     @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isEnabled() { 
+        return this.enabled;
     }
 
     
