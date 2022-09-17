@@ -27,7 +27,7 @@ public class ProdutosController {
 
     // @RequestMapping(value = "/produtos" , method=RequestMethod.GET)
     @GetMapping
-    public ResponseEntity listar() {
+    public ResponseEntity<Object> listar() {
         var produtos = produtoService.listar();
         if (produtos.isEmpty())
             return ResponseEntity.ok().body("Lista vazia.");
@@ -35,7 +35,7 @@ public class ProdutosController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity exibir(@PathVariable long id) {
+    public ResponseEntity<Object> exibir(@PathVariable long id) {
         try {
             var produto = produtoService.exibir(id);
             return ResponseEntity.ok().body(produto);
@@ -48,7 +48,7 @@ public class ProdutosController {
     }
 
     @PostMapping
-    public ResponseEntity inserir(@RequestBody Produto produto) {
+    public ResponseEntity<Object> inserir(@RequestBody Produto produto) {
         if (produto.getNome() == null || 
                 produto.getMarca() == null)
             return ResponseEntity.status(400)
@@ -62,7 +62,7 @@ public class ProdutosController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Produto produto) {
+    public ResponseEntity<Object> atualizar(@PathVariable Long id, @RequestBody Produto produto) {
         if (produto.getNome() == null || 
                 produto.getMarca() == null)
                     return ResponseEntity.status(400)
@@ -88,7 +88,7 @@ public class ProdutosController {
  
     
     @DeleteMapping("/{id}")
-    public ResponseEntity remover(@PathVariable Long id) {
+    public ResponseEntity<Object> remover(@PathVariable Long id) {
         produtoService.excluir(id);
         return ResponseEntity.ok().body("Produto excluido.");
     }

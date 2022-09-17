@@ -5,7 +5,6 @@ import com.example.demo.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +22,7 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity listar() {
+    public ResponseEntity<Object> listar() {
         var usuarios = usuarioService.listar();
         if (usuarios.isEmpty())
             return ResponseEntity.ok().body("Lista vazia.");
@@ -31,7 +30,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity exibir(@PathVariable long id) {
+    public ResponseEntity<Object> exibir(@PathVariable long id) {
         try {
             var produto = usuarioService.exibir(id);
             return ResponseEntity.ok().body(produto);
@@ -44,8 +43,8 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity inserir(@RequestBody Usuario usuario) {
-        if (usuario.getNome() == null || usuario.getEmail() == null || usuario.getTelefone() == null)
+    public ResponseEntity<Object> inserir(@RequestBody Usuario usuario) {
+        if (usuario.getNome() == null || usuario.getEmail() == null || usuario.getPassword() == null)
             return ResponseEntity.status(400)
                     .body("Dados incorretos.");
 
@@ -57,8 +56,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        if (usuario.getNome() == null || usuario.getEmail() == null || usuario.getTelefone() == null)
+    public ResponseEntity<Object> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+        if (usuario.getNome() == null || usuario.getEmail() == null || usuario.getPassword() == null)
             return ResponseEntity.status(400).body("Dados incorretos.");
         usuario.setId(id);
         usuario = usuarioService.salvar(usuario);
@@ -81,7 +80,7 @@ public class UsuarioController {
     // }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity remover(@PathVariable Long id) {
+    public ResponseEntity<Object> remover(@PathVariable Long id) {
         usuarioService.excluir(id);
         return ResponseEntity.ok().body("Usuario excluido.");
     }
