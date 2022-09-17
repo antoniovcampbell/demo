@@ -32,8 +32,8 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> exibir(@PathVariable long id) {
         try {
-            var usuarios = usuarioService.exibir(id);
-            return ResponseEntity.ok().body(usuarios);
+            var usuario = usuarioService.exibir(id);
+            return ResponseEntity.ok().body(usuario);
         } catch (Exception e) {
             return ResponseEntity
                     .status(404)
@@ -60,7 +60,7 @@ public class UsuarioController {
         if (usuario.getUsername() == null || usuario.getEmail() == null || usuario.getPassword() == null)
             return ResponseEntity.status(400).body("Username , Email e Senha Obrigatorios");
         usuario.setId(id);
-        usuario = usuarioService.salvar(usuario);
+        usuario = usuarioService.atualizar(usuario);
         return ResponseEntity.status(201).body(usuario);
     }
 
