@@ -47,10 +47,15 @@ public class UsuarioController {
         if (usuario.getUsername() == null || usuario.getEmail() == null || usuario.getPassword() == null)
             return ResponseEntity.status(400)
                     .body("Username , Email e Senha Obrigatorios");
-
-        usuario = usuarioService.salvar(usuario);
-        if (usuario.getId() != 0)
+        try{
+            usuario = usuarioService.salvar(usuario);
+            if (usuario.getId() != 0)
             return ResponseEntity.status(201).body(usuario);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body("Não pode salvar o usuario!");
+        }
+        
+        
 
         return ResponseEntity.status(500).body("Erro interno.");
     }
@@ -81,8 +86,13 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> remover(@PathVariable Long id) {
-        usuarioService.excluir(id);
-        return ResponseEntity.ok().body("Usuario excluido.");
+        try{
+            usuarioService.excluir(id);
+            return ResponseEntity.ok().body("Usuario excluido.");
+        }catch(Exception e){
+            return ResponseEntity.notFound().build();
+        }
+        
     }
 
 }
