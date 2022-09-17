@@ -32,8 +32,8 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> exibir(@PathVariable long id) {
         try {
-            var produto = usuarioService.exibir(id);
-            return ResponseEntity.ok().body(produto);
+            var usuarios = usuarioService.exibir(id);
+            return ResponseEntity.ok().body(usuarios);
         } catch (Exception e) {
             return ResponseEntity
                     .status(404)
@@ -44,9 +44,9 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<Object> inserir(@RequestBody Usuario usuario) {
-        if (usuario.getNome() == null || usuario.getEmail() == null || usuario.getPassword() == null)
+        if (usuario.getUsername() == null || usuario.getEmail() == null || usuario.getPassword() == null)
             return ResponseEntity.status(400)
-                    .body("Dados incorretos.");
+                    .body("Username , Email e Senha Obrigatorios");
 
         usuario = usuarioService.salvar(usuario);
         if (usuario.getId() != 0)
@@ -57,8 +57,8 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        if (usuario.getNome() == null || usuario.getEmail() == null || usuario.getPassword() == null)
-            return ResponseEntity.status(400).body("Dados incorretos.");
+        if (usuario.getUsername() == null || usuario.getEmail() == null || usuario.getPassword() == null)
+            return ResponseEntity.status(400).body("Username , Email e Senha Obrigatorios");
         usuario.setId(id);
         usuario = usuarioService.salvar(usuario);
         return ResponseEntity.status(201).body(usuario);
